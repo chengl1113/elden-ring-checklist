@@ -4,22 +4,9 @@ import TextField from '@mui/material/TextField';
 import ItemCard from './ItemCard';
 import ProgressBar from './ProgressBar';
 
-const ItemList = ({ items, updateState }) => {
+const ItemList = ({ items, cookieName }) => {
     const [checked, setChecked] = React.useState([]);
     const [filter, setFilter] = React.useState(""); // State for the filter text
-
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
 
     // Filter items based on the filter text
     const filteredItems = items.filter((item) =>
@@ -31,7 +18,7 @@ const ItemList = ({ items, updateState }) => {
         <div style={style}>
             <ItemCard
                 item={filteredItems[index]}
-                updateState={updateState}
+                cookieName={cookieName}
             />
         </div>
     );

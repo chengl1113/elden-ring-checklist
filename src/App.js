@@ -37,16 +37,27 @@ function App() {
   };
 
   useEffect(() => {
-    // Get cookies
+    // Get the cookie value
     const ammoObtained = Cookies.get(AMMO_COOKIE);
+
     // Check if cookie exists
     if (ammoObtained === undefined) {
       console.log('ammo not found');
       console.log('setting cookie now');
-      Cookies.set(AMMO_COOKIE, JSON.stringify([]), { expires: 365 * 10 })
+      // Set an empty array as the initial value in the cookie
+      Cookies.set(AMMO_COOKIE, JSON.stringify([]), { expires: 365 * 10 });
+      setAmmoObtained([]); // Set the state to an empty array
+    } else {
+      // Parse the cookie value to an array
+      try {
+        const parsedAmmo = JSON.parse(ammoObtained);
+        setAmmoObtained(parsedAmmo); // Set the state with the parsed array
+      } catch (error) {
+        console.error('Error parsing ammo cookie:', error);
+        setAmmoObtained([]); // Fallback to an empty array if parsing fails
+      }
     }
-    setAmmoObtained(Cookies.get(AMMO_COOKIE));
-  }, [])
+  }, []);
 
   useEffect(() => {
     console.log("ammo obtained: ", ammoObtained)
@@ -209,34 +220,34 @@ function App() {
         </Box>
 
         <TabPanel value="1">
-          <ItemList items={ammoData} updateState={[ammoObtained, setAmmoObtained]} />
+          <ItemList items={ammoData} cookieName={AMMO_COOKIE} />
         </TabPanel>
         <TabPanel value="2">
-          <ItemList items={armorData} />
+          <ItemList items={armorData} cookieName={ARMOR_COOKIE} />
         </TabPanel>
         <TabPanel value="3">
-          <ItemList items={ashesOfWarData} />
+          <ItemList items={ashesOfWarData} cookieName={ASH_COOKIE} />
         </TabPanel>
         <TabPanel value="4">
-          <ItemList items={incantationsData} />
+          <ItemList items={incantationsData} cookieName={INCANTATION_COOKIE} />
         </TabPanel>
         <TabPanel value="5">
-          <ItemList items={itemsData} />
+          <ItemList items={itemsData} cookieName={ITEM_COOKIE} />
         </TabPanel>
         <TabPanel value="6">
-          <ItemList items={shieldData} />
+          <ItemList items={shieldData} cookieName={SHIELD_COOKIE} />
         </TabPanel>
         <TabPanel value="7">
-          <ItemList items={sorceriesData} />
+          <ItemList items={sorceriesData} cookieName={SORCERY_COOKIE} />
         </TabPanel>
         <TabPanel value="8">
-          <ItemList items={spiritsData} />
+          <ItemList items={spiritsData} cookieName={SPIRIT_COOKIE} />
         </TabPanel>
         <TabPanel value="9">
-          <ItemList items={talismansData} />
+          <ItemList items={talismansData} cookieName={TALISMAN_COOKIE} />
         </TabPanel>
         <TabPanel value="10">
-          <ItemList items={weaponsData} />
+          <ItemList items={weaponsData} cookieName={WEAPON_COOKIE} />
         </TabPanel>
       </TabContext>
     </Box>
