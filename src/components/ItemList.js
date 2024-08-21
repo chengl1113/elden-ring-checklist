@@ -4,8 +4,8 @@ import TextField from '@mui/material/TextField';
 import ItemCard from './ItemCard';
 import ProgressBar from './ProgressBar';
 
-const ItemList = ({ items }) => {
-    const [checked, setChecked] = React.useState([0]);
+const ItemList = ({ items, updateState }) => {
+    const [checked, setChecked] = React.useState([]);
     const [filter, setFilter] = React.useState(""); // State for the filter text
 
     const handleToggle = (value) => () => {
@@ -31,8 +31,7 @@ const ItemList = ({ items }) => {
         <div style={style}>
             <ItemCard
                 item={filteredItems[index]}
-                checked={checked.includes(index)}
-                handleToggle={handleToggle(index)}
+                updateState={updateState}
             />
         </div>
     );

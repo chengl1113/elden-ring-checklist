@@ -5,9 +5,22 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Cookies from 'js-cookie'
+
+const AMMO_COOKIE = "ammoCookie";
+const ARMOR_COOKIE = "armorCookie";
+const ASH_COOKIE = "ashCookie";
+const INCANTATION_COOKIE = "incantationCookie";
+const ITEM_COOKIE = "itemCookie";
+const SHIELD_COOKIE = "shieldCookie";
+const SORCERY_COOKIE = "sorceryCookie";
+const SPIRIT_COOKIE = "spiritCookie";
+const TALISMAN_COOKIE = "talismanCookie";
+const WEAPON_COOKIE = "weaponCookie"
 
 function App() {
   const [ammoData, setAmmoData] = useState([]);
+  const [ammoObtained, setAmmoObtained] = useState([])
   const [armorData, setArmorData] = useState([]);
   const [ashesOfWarData, setAshesOfWarData] = useState([]);
   const [incantationsData, setIncantationsData] = useState([]);
@@ -22,6 +35,23 @@ function App() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    // Get cookies
+    const ammoObtained = Cookies.get(AMMO_COOKIE);
+    // Check if cookie exists
+    if (ammoObtained === undefined) {
+      console.log('ammo not found');
+      console.log('setting cookie now');
+      Cookies.set(AMMO_COOKIE, JSON.stringify([]), { expires: 365 * 10 })
+    }
+    setAmmoObtained(Cookies.get(AMMO_COOKIE));
+  }, [])
+
+  useEffect(() => {
+    console.log("ammo obtained: ", ammoObtained)
+  }, [ammoObtained])
+
 
   useEffect(() => {
     fetch('https://eldenring.fanapis.com/api/ammos?limit=10000')
@@ -142,10 +172,6 @@ function App() {
     fetchWeaponData();
   }, []);
 
-  useEffect(() => {
-    console.log(armorData)
-
-  }, [armorData])
 
 
   return (
@@ -183,7 +209,7 @@ function App() {
         </Box>
 
         <TabPanel value="1">
-          <ItemList items={ammoData} />
+          <ItemList items={ammoData} updateState={[ammoObtained, setAmmoObtained]} />
         </TabPanel>
         <TabPanel value="2">
           <ItemList items={armorData} />

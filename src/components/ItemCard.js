@@ -2,13 +2,30 @@ import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, Avatar, ListItemText, Grid } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-const ItemCard = ({ item }) => {
+const ItemCard = ({ item, updateState }) => {
 
-    const [isChecked, setIsChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(false);
+    const [state, setState] = updateState;  // Destructure updateState
+
     const imageUrl = item.image;  // Sample image
     const primaryText = item.name;
     const secondaryText = item.description;
     const tertiaryText = item.passive || "";
+
+    const handleCheck = (event) => {
+        const newCheckedState = event.target.checked;
+        console.log("isChecked", isChecked);
+        console.log("newCheckedState", newCheckedState);
+        setIsChecked(newCheckedState);
+
+        if (newCheckedState) {
+            // Add item to the state array if checked
+            setState([...state, primaryText]);
+        } else {
+            // Remove item from the state array if unchecked
+            setState(state.filter(item => item !== primaryText));
+        }
+    }
 
     return (
         <ListItem
@@ -22,7 +39,7 @@ const ItemCard = ({ item }) => {
                 boxSizing: 'border-box'
             }}>
             {/* Checkbox */}
-            <Checkbox edge="start" checked={isChecked} tabIndex={-1} disableRipple onChange={(event) => setIsChecked(!isChecked)} />
+            <Checkbox edge="start" checked={isChecked} tabIndex={-1} disableRipple onChange={handleCheck} />
 
             {/* Image */}
             <ListItemAvatar>
