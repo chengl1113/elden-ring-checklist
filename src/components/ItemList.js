@@ -1,6 +1,6 @@
 import React from 'react';
-import List from '@mui/material/List';
-import TextField from '@mui/material/TextField';  // Import the TextField for filtering
+import { FixedSizeList as VirtualizedList } from 'react-window';
+import TextField from '@mui/material/TextField';
 import ItemCard from './ItemCard';
 import ProgressBar from './ProgressBar';
 
@@ -26,6 +26,17 @@ const ItemList = ({ items }) => {
         item.name.toLowerCase().includes(filter.toLowerCase())
     );
 
+    // Row component for react-window
+    const Row = ({ index, style }) => (
+        <div style={style}>
+            <ItemCard
+                item={filteredItems[index]}
+                checked={checked.includes(index)}
+                handleToggle={handleToggle(index)}
+            />
+        </div>
+    );
+
     return (
         <>
             <TextField
@@ -39,16 +50,15 @@ const ItemList = ({ items }) => {
 
             <ProgressBar current={checked.length} total={filteredItems.length} />
 
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                {filteredItems.map((item, index) => (
-                    <ItemCard
-                        key={index}
-                        item={item}
-                        checked={checked.includes(index)}
-                        handleToggle={handleToggle(index)}
-                    />
-                ))}
-            </List>
+            {/* VirtualizedList Component */}
+            <VirtualizedList
+                height={1000} // Height of the list (in pixels)
+                itemCount={filteredItems.length} // Number of items
+                itemSize={120} // Height of each row (in pixels)
+                width={"105%"} // Width of the list
+            >
+                {Row}
+            </VirtualizedList>
         </>
     );
 }
