@@ -36,33 +36,6 @@ function App() {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    // Get the cookie value
-    const ammoObtained = Cookies.get(AMMO_COOKIE);
-
-    // Check if cookie exists
-    if (ammoObtained === undefined) {
-      console.log('ammo not found');
-      console.log('setting cookie now');
-      // Set an empty array as the initial value in the cookie
-      Cookies.set(AMMO_COOKIE, JSON.stringify([]), { expires: 365 * 10 });
-      setAmmoObtained([]); // Set the state to an empty array
-    } else {
-      // Parse the cookie value to an array
-      try {
-        const parsedAmmo = JSON.parse(ammoObtained);
-        setAmmoObtained(parsedAmmo); // Set the state with the parsed array
-      } catch (error) {
-        console.error('Error parsing ammo cookie:', error);
-        setAmmoObtained([]); // Fallback to an empty array if parsing fails
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log("ammo obtained: ", ammoObtained)
-  }, [ammoObtained])
-
 
   useEffect(() => {
     fetch('https://eldenring.fanapis.com/api/ammos?limit=10000')

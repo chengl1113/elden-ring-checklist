@@ -3,9 +3,16 @@ import { FixedSizeList as VirtualizedList } from 'react-window';
 import TextField from '@mui/material/TextField';
 import ItemCard from './ItemCard';
 import ProgressBar from './ProgressBar';
+import Cookies from 'js-cookie'
+
 
 const ItemList = ({ items, cookieName }) => {
-    const [checked, setChecked] = React.useState([]);
+    // inital fetch of cookie
+    const cookieValue = Cookies.get(cookieName) || '[]';
+    const cookieList = JSON.parse(cookieValue);
+    const cookieListLength = cookieList.length;
+
+
     const [filter, setFilter] = React.useState(""); // State for the filter text
 
     // Filter items based on the filter text
@@ -34,7 +41,7 @@ const ItemList = ({ items, cookieName }) => {
                 onChange={(e) => setFilter(e.target.value)} // Update filter state on input change
             />
 
-            <ProgressBar current={checked.length} total={filteredItems.length} />
+            <ProgressBar current={cookieListLength} total={filteredItems.length} />
 
             {/* VirtualizedList Component */}
             <VirtualizedList

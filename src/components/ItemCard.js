@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, Avatar, ListItemText, Grid } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 
 const ItemCard = ({ item, cookieName }) => {
-
-    const [isChecked, setIsChecked] = useState(false);
-    // const [state, setState] = updateState;  // Destructure updateState
-
     const imageUrl = item.image;  // Sample image
     const primaryText = item.name;
     const secondaryText = item.description;
     const tertiaryText = item.passive || "";
 
+    // inital fetch of cookies to see get inital state of isChecked
+    const cookieValue = Cookies.get(cookieName) || '[]';
+    const cookieList = JSON.parse(cookieValue);
+
+    const [isChecked, setIsChecked] = useState(cookieList.includes(primaryText));
+
+
     const handleCheck = (event) => {
-        console.log("cookieName", cookieName);
         const newCheckedState = event.target.checked;
         setIsChecked(newCheckedState);
 
