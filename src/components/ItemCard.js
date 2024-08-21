@@ -4,7 +4,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Cookies from 'js-cookie';
 
 
-const ItemCard = ({ item, cookieName }) => {
+const ItemCard = ({ item, cookieName, updateCurrent }) => {
     const imageUrl = item.image;  // Sample image
     const primaryText = item.name;
     const secondaryText = item.description;
@@ -56,6 +56,7 @@ const ItemCard = ({ item, cookieName }) => {
 
         // Update the cookie with the modified list
         Cookies.set(cookieName, JSON.stringify(cookieValueList), { expires: 365 * 10 });
+        updateCurrent(cookieValueList.length)
 
         console.log(Cookies.get(cookieName));
     };

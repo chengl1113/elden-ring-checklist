@@ -5,7 +5,6 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Cookies from 'js-cookie'
 
 const AMMO_COOKIE = "ammoCookie";
 const ARMOR_COOKIE = "armorCookie";
@@ -20,7 +19,6 @@ const WEAPON_COOKIE = "weaponCookie"
 
 function App() {
   const [ammoData, setAmmoData] = useState([]);
-  const [ammoObtained, setAmmoObtained] = useState([])
   const [armorData, setArmorData] = useState([]);
   const [ashesOfWarData, setAshesOfWarData] = useState([]);
   const [incantationsData, setIncantationsData] = useState([]);
