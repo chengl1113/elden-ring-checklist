@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { Analytics } from "@vercel/analytics/react";
 
 const AMMO_COOKIE = "ammoCookie";
 const ARMOR_COOKIE = "armorCookie";
@@ -157,71 +158,75 @@ function App() {
 
 
   return (
-    <Box sx={{
-      width: '80%',
-      typography: 'body1',
-      marginLeft: "10%",
-      marginRight: "10%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center"
-    }}>
-      <TabContext value={value}>
-        {/* TabList with sticky position */}
-        <Box sx={{
-          position: 'sticky', // Make it sticky
-          top: 0, // Stick it to the top of the page
-          zIndex: 1, // Ensure it stays above other elements
-          bgcolor: 'background.paper', // Add background to avoid transparency
-          borderBottom: 1,
-          borderColor: 'divider'
-        }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable" scrollButtons="auto">
-            <Tab label="Ammos" value="1" />
-            <Tab label="Armors" value="2" />
-            <Tab label="Ashes of War" value="3" />
-            <Tab label="Incantations" value="4" />
-            <Tab label="Items" value="5" />
-            <Tab label="Shields" value="6" />
-            <Tab label="Sorceries" value="7" />
-            <Tab label="Spirits" value="8" />
-            <Tab label="Talismans" value="9" />
-            <Tab label="Weapons" value="10" />
-          </TabList>
-        </Box>
+    <>
+      <Box sx={{
+        width: '80%',
+        typography: 'body1',
+        marginLeft: "10%",
+        marginRight: "10%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }}>
+        <TabContext value={value}>
+          {/* TabList with sticky position */}
+          <Box sx={{
+            position: 'sticky', // Make it sticky
+            top: 0, // Stick it to the top of the page
+            zIndex: 1, // Ensure it stays above other elements
+            bgcolor: 'background.paper', // Add background to avoid transparency
+            borderBottom: 1,
+            borderColor: 'divider'
+          }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable" scrollButtons="auto">
+              <Tab label="Ammos" value="1" />
+              <Tab label="Armors" value="2" />
+              <Tab label="Ashes of War" value="3" />
+              <Tab label="Incantations" value="4" />
+              <Tab label="Items" value="5" />
+              <Tab label="Shields" value="6" />
+              <Tab label="Sorceries" value="7" />
+              <Tab label="Spirits" value="8" />
+              <Tab label="Talismans" value="9" />
+              <Tab label="Weapons" value="10" />
+            </TabList>
+          </Box>
 
-        <TabPanel value="1">
-          <ItemList items={ammoData} cookieName={AMMO_COOKIE} />
-        </TabPanel>
-        <TabPanel value="2">
-          <ItemList items={armorData} cookieName={ARMOR_COOKIE} />
-        </TabPanel>
-        <TabPanel value="3">
-          <ItemList items={ashesOfWarData} cookieName={ASH_COOKIE} />
-        </TabPanel>
-        <TabPanel value="4">
-          <ItemList items={incantationsData} cookieName={INCANTATION_COOKIE} />
-        </TabPanel>
-        <TabPanel value="5">
-          <ItemList items={itemsData} cookieName={ITEM_COOKIE} />
-        </TabPanel>
-        <TabPanel value="6">
-          <ItemList items={shieldData} cookieName={SHIELD_COOKIE} />
-        </TabPanel>
-        <TabPanel value="7">
-          <ItemList items={sorceriesData} cookieName={SORCERY_COOKIE} />
-        </TabPanel>
-        <TabPanel value="8">
-          <ItemList items={spiritsData} cookieName={SPIRIT_COOKIE} />
-        </TabPanel>
-        <TabPanel value="9">
-          <ItemList items={talismansData} cookieName={TALISMAN_COOKIE} />
-        </TabPanel>
-        <TabPanel value="10">
-          <ItemList items={weaponsData} cookieName={WEAPON_COOKIE} />
-        </TabPanel>
-      </TabContext>
-    </Box>
+          <TabPanel value="1">
+            <ItemList items={ammoData} cookieName={AMMO_COOKIE} />
+          </TabPanel>
+          <TabPanel value="2">
+            <ItemList items={armorData} cookieName={ARMOR_COOKIE} />
+          </TabPanel>
+          <TabPanel value="3">
+            <ItemList items={ashesOfWarData} cookieName={ASH_COOKIE} />
+          </TabPanel>
+          <TabPanel value="4">
+            <ItemList items={incantationsData} cookieName={INCANTATION_COOKIE} />
+          </TabPanel>
+          <TabPanel value="5">
+            <ItemList items={itemsData} cookieName={ITEM_COOKIE} />
+          </TabPanel>
+          <TabPanel value="6">
+            <ItemList items={shieldData} cookieName={SHIELD_COOKIE} />
+          </TabPanel>
+          <TabPanel value="7">
+            <ItemList items={sorceriesData} cookieName={SORCERY_COOKIE} />
+          </TabPanel>
+          <TabPanel value="8">
+            <ItemList items={spiritsData} cookieName={SPIRIT_COOKIE} />
+          </TabPanel>
+          <TabPanel value="9">
+            <ItemList items={talismansData} cookieName={TALISMAN_COOKIE} />
+          </TabPanel>
+          <TabPanel value="10">
+            <ItemList items={weaponsData} cookieName={WEAPON_COOKIE} />
+          </TabPanel>
+        </TabContext>
+      </Box>
+      <Analytics />
+    </>
+
   );
 }
 
