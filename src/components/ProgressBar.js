@@ -19,7 +19,7 @@ const ProgressBar = ({ current, total }) => {
         <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', marginTop: '20px', marginBotton: '20px' }}>
             {/* Progress Bar */}
             <Box sx={{ width: '90%', marginRight: '10px' }}>
-                <LinearProgress variant="determinate" value={progress} />
+                <LinearProgress variant="determinate" value={progress} color={progress == 100 ? "success" : "primary"} />
             </Box>
 
             {/* Progress Number */}

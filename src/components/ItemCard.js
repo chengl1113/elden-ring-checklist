@@ -61,19 +61,6 @@ const ItemCard = ({ item, cookieName, updateCurrent }) => {
         console.log(Cookies.get(cookieName));
     };
 
-
-
-
-    // useEffect(() => {
-    //     if (isChecked) {
-    //         setState([...state, primaryText]);
-    //     } else {
-    //         setState(state.filter(item => item !== primaryText));
-    //     }
-
-    // }, [isChecked]);
-
-
     return (
         <ListItem
             alignItems="flex-start"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FixedSizeList as VirtualizedList } from 'react-window';
-import TextField from '@mui/material/TextField';
+import { TextField, Checkbox, FormControlLabel, Grid } from '@mui/material';
 import ItemCard from './ItemCard';
 import ProgressBar from './ProgressBar';
 import Cookies from 'js-cookie';
@@ -11,22 +11,30 @@ const ItemList = ({ items, cookieName }) => {
     const cookieList = JSON.parse(cookieValue);
 
     const [currentObtained, setCurrentObtained] = useState(cookieList.length);
-
-    // State for the filter text and viewport height
-    const [filter, setFilter] = useState("");
-    const [viewportHeight, setViewportHeight] = useState(window.innerHeight - 100);
+    const [filter, setFilter] = useState(""); // State for the filter text
+    const [showChecked, setShowChecked] = useState(true); // Checkbox state for showing checked items
+    const [showUnchecked, setShowUnchecked] = useState(true); // Checkbox state for showing unchecked items
+    const [viewportHeight, setViewportHeight] = useState(window.innerHeight - 100); // State for the viewport height
 
     // Update viewport height on window resize
     useEffect(() => {
-        const handleResize = () => setViewportHeight(window.innerHeight);
+        const handleResize = () => setViewportHeight(window.innerHeight - 100);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Filter items based on the filter text
-    const filteredItems = items.filter((item) =>
-        item.name.toLowerCase().includes(filter.toLowerCase())
-    );
+    // Filter items based on the filter text and checked/unchecked status
+    const filteredItems = items.filter((item) => {
+        const isChecked = cookieList.includes(item.name);
+        const matchesFilter = item.name.toLowerCase().includes(filter.toLowerCase());
+
+        // Apply filters based on the checkboxes
+        if (!matchesFilter) return false;
+        if (showChecked && showUnchecked) return true;
+        if (showChecked) return isChecked;
+        if (showUnchecked) return !isChecked;
+        return false;
+    });
 
     // Row component for react-window
     const Row = ({ index, style }) => (
@@ -45,6 +53,7 @@ const ItemList = ({ items, cookieName }) => {
 
     return (
         <>
+            {/* TextField for filtering by name */}
             <TextField
                 label="Filter by name"
                 variant="outlined"
@@ -54,7 +63,34 @@ const ItemList = ({ items, cookieName }) => {
                 onChange={(e) => setFilter(e.target.value)} // Update filter state on input change
             />
 
-            <ProgressBar current={currentObtained} total={filteredItems.length} />
+            {/* Checkboxes for filtering checked/unchecked items */}
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={showChecked}
+                                onChange={(e) => setShowChecked(e.target.checked)} // Update checked filter
+                            />
+                        }
+                        label="Show Checked Items"
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={showUnchecked}
+                                onChange={(e) => setShowUnchecked(e.target.checked)} // Update unchecked filter
+                            />
+                        }
+                        label="Show Unchecked Items"
+                    />
+                </Grid>
+            </Grid>
+
+            {/* Progress bar */}
+            <ProgressBar current={currentObtained} total={items.length} />
 
             {/* VirtualizedList Component */}
             <VirtualizedList
@@ -67,6 +103,6 @@ const ItemList = ({ items, cookieName }) => {
             </VirtualizedList>
         </>
     );
-}
+};
 
 export default ItemList;
